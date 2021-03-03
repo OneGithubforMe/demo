@@ -86,6 +86,10 @@ var total_activity=0;
 var act_sum=0;
 
 
+
+
+
+
 function fullscreentoggle(){
     var elem = document.documentElement;
     if(!fullscreen){
@@ -125,6 +129,15 @@ function openNav() {
     }
   }
 var functionVar=null;
+
+
+
+document.querySelector('body').addEventListener('keypress', function (e) {
+    if (e.key === 'Enter') {
+        openNav();
+    }
+});
+
 
 
 function game(x){
@@ -171,7 +184,7 @@ function game(x){
             break;
         
         case 4:
-                    var my_awesome_script = document.createElement('script');
+             var my_awesome_script = document.createElement('script');
             my_awesome_script.setAttribute('src','e-punchBag-hand.js');
             document.body.appendChild(my_awesome_script);
 
@@ -558,6 +571,7 @@ const minConfidence=0.5;
 var initialized=0;
 
 function onResults(results) {
+
     if((window.innerWidth/window.innerHeight>=aspectratio && window.innerHeight!=canvasHeight) || (window.innerWidth/window.innerHeight<aspectratio && window.innerWidth!=canvasWidth)){
         if(window.innerWidth/window.innerHeight>=aspectratio){
             canvasHeight=window.innerHeight;
@@ -610,8 +624,86 @@ function onResults(results) {
     // ctx2.globalAlpha=0.6;
     // ctx2.fillStyle='black';
     // ctx2.fillRect(0,canvasHeight*0.9,canvasWidth,canvasHeight*0.1);
-    var clr='blue';
+    // var clr='blue';
+    
+    // the yellow line.
+    ctx2.beginPath();
+    ctx2.moveTo(0,canvasHeight*0.9);
+    ctx2.lineTo(canvasWidth,canvasHeight*0.9);
+    ctx2.lineWidth=5;
+    ctx2.strokeStyle='rgb(230, 130, 20)';
+    ctx2.stroke();
+    ctx2.beginPath();
+    ctx2.moveTo(0,canvasHeight*0.1);
+    ctx2.lineTo(canvasWidth,canvasHeight*0.1);
+    ctx2.lineWidth=5;
+    ctx2.strokeStyle='rgb(230, 130, 20)';
+    ctx2.stroke();
+
+
     if (functionVar!=null){
+        if (!initialized){
+            if(!played){
+                btwlines.play();
+                played=1;
+
+            }
+            // var txt='';
+            // ctx1.clearRect(0, 0, canvas1.width, canvas1.height);
+            // ctx1.drawImage(results.image, 0, 0, canvas1.width, canvas1.height);
+            // var clrup='blue';
+            // var clrdown='blue';
+            
+            // ctx1.fillStyle = 'yellow';
+            // ctx1.font = "900 "+canvasHeight*0.05+"px Arial";
+
+            try{
+            drawConnectors(ctx1, results.poseLandmarks, POSE_CONNECTIONS,
+                {color: 'white'});
+            drawLandmarks(ctx1, [results.poseLandmarks[11],results.poseLandmarks[12],results.poseLandmarks[13],results.poseLandmarks[14],results.poseLandmarks[15],results.poseLandmarks[16],results.poseLandmarks[23],results.poseLandmarks[24],results.poseLandmarks[25],results.poseLandmarks[26],results.poseLandmarks[27],results.poseLandmarks[28]],
+               {color: 'white', fillColor:'white',lineWidth: 4, radius: 6});
+            }
+            catch(err){}
+            
+            try{
+                if((results.poseLandmarks[0].visibility>0.8 && results.poseLandmarks[27].visibility>0.8 && results.poseLandmarks[28].visibility>0.8) && !(results.poseLandmarks[33].y<0.1 || results.poseLandmarks[33].y>0.2) && !(results.poseLandmarks[27].y<0.8 || results.poseLandmarks[27].y>0.9 || results.poseLandmarks[28].y<0.8 || results.poseLandmarks[28].y>0.9)){
+                    initialized=1;
+                }
+                // else{
+                //     if (results.poseLandmarks[33].y<0.1 ){
+                        
+                //     }
+                //     else if( results.poseLandmarks[33].y>0.2){
+                //         ctx1.fillText('Head ->', 0.1*canvasWidth, 0.15*canvasHeight);
+                //     }
+                //     else{
+                //         clrup='rgb(230,130,20)';
+                //     }
+                //     if (  results.poseLandmarks[27].y>0.9 || results.poseLandmarks[28].y>0.9){
+                        
+                //     }
+                //     else if(results.poseLandmarks[27].y<0.8 || results.poseLandmarks[28].y<0.8){
+                //         ctx1.fillText('Ankles ->', 0.1*canvasWidth, 0.87*canvasHeight);
+                //     }
+                //     else{
+                //         clrdown='rgb(230,130,20)';
+                //     }
+                    
+                // }
+            }
+            catch(err){}
+                // ctx1.textAlign = "center";
+                // ctx1.font = "900 "+canvasHeight*0.05+"px Arial";
+                // // ctx1.fillText(txt, 0.5*canvasWidth, 0.8*canvasHeight);
+                // ctx1.fillStyle = clrup;
+                // ctx1.fillRect(0, canvasHeight*0.1, canvasWidth, 5);
+                // // ctx1.fillRect(0, canvasHeight*0.2, canvasWidth, 5);
+            
+                // ctx1.fillStyle = clrdown;
+                // // ctx1.fillRect(0, canvasHeight*0.8, canvasWidth, 5);
+                // ctx1.fillRect(0, canvasHeight*0.90, canvasWidth, 5);
+        }
+        else{
             try{
                 Exercise(results);
 
@@ -648,13 +740,13 @@ function onResults(results) {
                 }
                 // Intensity
             
-                if(saved_activity.length>=Math.floor(fr*3/sampling_rate)){
-                    var use_act=Math.floor(fr*3/sampling_rate);
-                    var act_sum=0
-                    for(let i=saved_activity.length-use_act-1;i<saved_activity.length;i+=1){
-                        act_sum+=saved_activity[i];
-                    }
-                }
+                // if(saved_activity.length>=Math.floor(fr*3/sampling_rate)){
+                //     var use_act=Math.floor(fr*3/sampling_rate);
+                //     var act_sum=0
+                //     for(let i=saved_activity.length-use_act-1;i<saved_activity.length;i+=1){
+                //         act_sum+=saved_activity[i];
+                //     }
+                // }
             }
             catch(err){}
     
@@ -668,13 +760,14 @@ function onResults(results) {
             // Activity
 
   
+        }
     }
     
     
-    var intensity=Math.round((act_sum/use_act));
-    if (isNaN(intensity)){
-        intensity=0;
-    }
+    // var intensity=Math.round((act_sum/use_act));
+    // if (isNaN(intensity)){
+    //     intensity=0;
+    // }
     // ctx2.globalAlpha=1;
     // ctx2.fillStyle='yellow';
     // ctx2.font = "900 "+canvasHeight*0.05+"px Arial";

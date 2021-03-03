@@ -1,6 +1,8 @@
 <html>
 
 <head>
+
+    <meta charset="UTF-8">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/pose/pose.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
@@ -16,16 +18,10 @@
 
 <body>
     <!-- <div id="console"></div> -->
-    <button id='fsbutton' onclick="fullscreentoggle()">
-        Fullscreen
-    </button>
-    <button id='menubutton' onclick="openNav()">
-        Menu
-    </button>
     <div class='media' style="height: 720;">
         <video hidden  muted width="1280" height="720" id="webcam" ></video>
-        <canvas id="output1" width="1280" height="720"></canvas>
-        <canvas id="output2" width="1280" height="720"></canvas>
+        <canvas id="output1" width="1280" height="720" ondblclick="fullscreentoggle()"></canvas>
+        <canvas id="output2" width="1280" height="720" ondblclick="fullscreentoggle()"></canvas>
     </div>
     <br>
     <!-- <div class="btn">
